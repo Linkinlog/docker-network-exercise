@@ -6,8 +6,6 @@ services:
     restart: unless-stopped
     ports:
       - "8080:80"
-      - "4043:443"
-      - "4043:443/udp"
     volumes:
       - ./public/:/sites
       - ./build/Caddyfile:/etc/caddy/Caddyfile

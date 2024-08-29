@@ -5,13 +5,11 @@ services:
     image: caddy:2.8.4-alpine
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      - "8080:80"
     volumes:
       - ./public/main:/sites/main
-      - ./public/prototype.main:/sites/prototype.main
-      - ./public/docs.main:/sites/docs.main
+      - ./public/prototype:/sites/prototype
+      - ./public/docs:/sites/docs
       - ./build/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config

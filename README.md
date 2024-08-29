@@ -9,8 +9,9 @@ Simple playground to illustrate possible docker setups that:
 
 # Usage
 
-Simply update your hosts or DNS to forward all requests to main.test, docs.test, and prototype.test to 127.0.0.1. And then run `make optionX` replacing `X` with the option you would like to explore. Details on the options are [below](##Differences-between-the-docker-compose-files).
+Simply update your hosts or DNS to forward all requests to main.test, docs.test, and prototype.test to 127.0.0.1, and run `make optionX` replacing `X` with the [option](##Differences-between-the-docker-compose-files) that you would like to explore.
 
+Then you can visit `http://main.test:8080`, `http://docs.test:8080`, and `http://prototype.test:8080`. 
 ## DNS (On Mac)
 [Guide](https://gist.github.com/ogrrd/5831371)
 ## Hosts

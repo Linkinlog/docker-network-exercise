@@ -1,0 +1,5 @@
+http://main.test {
+	root * /sites/main
+	reverse_proxy /api/v1/* backend:8080
+	file_server
+}

@@ -1,0 +1,5 @@
+http://docs.test {
+	root * /sites/docs
+	reverse_proxy /api/v1/* backend:8080
+	file_server
+}

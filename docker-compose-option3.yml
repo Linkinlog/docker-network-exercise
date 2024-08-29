@@ -7,11 +7,9 @@ services:
     image: caddy:2.8.4-alpine
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      - "8080:80"
     volumes:
-      - ./build/Caddyfile:/etc/caddy/Caddyfile
+      - ./build/option3/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
@@ -21,48 +19,33 @@ services:
   main:
     image: caddy:2.8.4-alpine
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
     volumes:
       - ./public/main:/sites/main
-      - build/Caddyfile:/etc/caddy/Caddyfile
+      - ./build/option3/main.Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
       - main
-      - caddy
   prototype:
     image: caddy:2.8.4-alpine
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
     volumes:
-      - ./public/prototype.main:/sites/prototype.main
-      - build/Caddyfile:/etc/caddy/Caddyfile
+      - ./public/prototype:/sites/prototype
+      - ./build/option3/prototype.Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
       - main
-      - caddy
   docs:
     image: caddy:2.8.4-alpine
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
     volumes:
-      - ./public/docs.main:/sites/docs.main
-      - build/Caddyfile:/etc/caddy/Caddyfile
+      - ./public/docs:/sites/docs
+      - ./build/option3/docs.Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
       - main
-      - caddy
   backend:
     build:
       context: .

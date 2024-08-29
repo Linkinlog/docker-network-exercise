@@ -1,0 +1,11 @@
+http://main.test {
+	reverse_proxy * main
+}
+
+http://docs.test {
+	reverse_proxy * docs
+}
+
+http://prototype.test {
+	reverse_proxy * prototype
+}
