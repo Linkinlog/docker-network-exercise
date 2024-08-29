@@ -15,9 +15,9 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - internal
-      - external
-      - proxy
+      - main
+      - vendors
+      - caddy
   main:
     image: caddy:2.8.4-alpine
     restart: unless-stopped
@@ -31,8 +31,8 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - internal
-      - proxy
+      - main
+      - caddy
   prototype:
     image: caddy:2.8.4-alpine
     restart: unless-stopped
@@ -46,8 +46,8 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - internal
-      - proxy
+      - main
+      - caddy
   docs:
     image: caddy:2.8.4-alpine
     restart: unless-stopped
@@ -61,8 +61,8 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - internal
-      - proxy
+      - main
+      - caddy
   test_backend:
     build:
       context: .
@@ -75,7 +75,7 @@ services:
       start_period: 40s
       start_interval: 5s
     networks:
-      - internal
+      - main
   mailhog:
     image: mailhog/mailhog:latest
     environment:
@@ -86,15 +86,15 @@ services:
     volumes:
       - mailhog:/data
     networks:
-      - external
-  volumes:
-    caddy_data:
-    caddy_config:
-    mailhog:
-  networks:
-    internal:
-      driver: bridge
-    external:
-      driver: bridge
-    proxy:
-      driver: bridge
+      - vendors
+volumes:
+  caddy_data:
+  caddy_config:
+  mailhog:
+networks:
+  main:
+    driver: bridge
+  vendors:
+    driver: bridge
+  caddy:
+    driver: bridge

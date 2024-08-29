@@ -14,9 +14,9 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - internal
-      - external
-      - proxy
+      - main
+      - vendors
+      - cadidy
   test_backend:
     build:
       context: .
@@ -29,7 +29,7 @@ services:
       start_period: 40s
       start_interval: 5s
     networks:
-      - internal
+      - main
   mailhog:
     image: mailhog/mailhog:latest
     environment:
@@ -40,15 +40,15 @@ services:
     volumes:
       - mailhog:/data
     networks:
-      - external
-  volumes:
-    caddy_data:
-    caddy_config:
-    mailhog:
-  networks:
-    internal:
-      driver: bridge
-    external:
-      driver: bridge
-    proxy:
-      driver: bridge
+      - vendors
+volumes:
+  caddy_data:
+  caddy_config:
+  mailhog:
+networks:
+  main:
+    driver: bridge
+  vendors:
+    driver: bridge
+  cadidy:
+    driver: bridge
