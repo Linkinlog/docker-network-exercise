@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Main App</title>
+    <link href="style.css" rel="stylesheet" />
+    <script
+      src="https://unpkg.com/htmx.org@2.0.2"
+      integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <main>
+      <button hx-get="/api/v1/" hx-target="#hello-world" hx-swap="innerHTML">
+        Click Me!
+      </button>
+      <div id="hello-world"></div>
+    </main>
+  </body>
+</html>

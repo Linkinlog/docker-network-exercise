@@ -11,7 +11,7 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./build/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
@@ -27,7 +27,7 @@ services:
       - "443:443/udp"
     volumes:
       - ./public/main:/sites/main
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - build/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
@@ -42,7 +42,7 @@ services:
       - "443:443/udp"
     volumes:
       - ./public/prototype.main:/sites/prototype.main
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - build/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
@@ -57,13 +57,13 @@ services:
       - "443:443/udp"
     volumes:
       - ./public/docs.main:/sites/docs.main
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - build/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
       - main
       - caddy
-  test_backend:
+  backend:
     build:
       context: .
       dockerfile: build/backend.Dockerfile
@@ -79,10 +79,12 @@ services:
   mailhog:
     image: mailhog/mailhog:latest
     environment:
-      MH_HOSTNAME: mail.main.dev
+      MH_HOSTNAME: mail.test
       MH_MAILDIR_PATH: /data
       MH_STORAGE: maildir
     user: 0:0
+    ports:
+      - "8025:8025"
     volumes:
       - mailhog:/data
     networks:
