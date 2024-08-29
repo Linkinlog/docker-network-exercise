@@ -1,0 +1,54 @@
+# This docker compose gives a less explicit view into which static assets are being served by having all sites served through the /sites folder.
+# This can be a little confusing at first glance yet allows us to deploy new sites by just changing the caddy file and reloading caddy.
+services:
+  caddy:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./public/:/sites
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+      - external
+      - proxy
+  test_backend:
+    build:
+      context: .
+      dockerfile: build/backend.Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-fI", "http://localhost:8080"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    networks:
+      - internal
+  mailhog:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_HOSTNAME: mail.main.dev
+      MH_MAILDIR_PATH: /data
+      MH_STORAGE: maildir
+    user: 0:0
+    volumes:
+      - mailhog:/data
+    networks:
+      - external
+  volumes:
+    caddy_data:
+    caddy_config:
+    mailhog:
+  networks:
+    internal:
+      driver: bridge
+    external:
+      driver: bridge
+    proxy:
+      driver: bridge

@@ -1,0 +1,100 @@
+# This docker compose gives an even more explicit view into which static assets are being served by having each one be in its container.
+# The downside being needing to redeploy the stack whenever we want to add any new sites
+# However, an additional upside is slightly more granular control over the environment that each static site is in.
+# This does come with its own downside though, being additional overhead and resources.
+services:
+  caddy:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+      - external
+      - proxy
+  main:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./public/main:/sites/main
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+      - proxy
+  prototype:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./public/prototype.main:/sites/prototype.main
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+      - proxy
+  docs:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./public/docs.main:/sites/docs.main
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+      - proxy
+  test_backend:
+    build:
+      context: .
+      dockerfile: build/backend.Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-fI", "http://localhost:8080"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    networks:
+      - internal
+  mailhog:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_HOSTNAME: mail.main.dev
+      MH_MAILDIR_PATH: /data
+      MH_STORAGE: maildir
+    user: 0:0
+    volumes:
+      - mailhog:/data
+    networks:
+      - external
+  volumes:
+    caddy_data:
+    caddy_config:
+    mailhog:
+  networks:
+    internal:
+      driver: bridge
+    external:
+      driver: bridge
+    proxy:
+      driver: bridge

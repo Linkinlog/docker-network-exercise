@@ -1,0 +1,56 @@
+# This docker compose gives a more explicit view into which static assets are being served by having each one be in its own volume.
+# The downside being needing to redeploy the stack whenever we want to add any new sites
+services:
+  caddy:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./public/main:/sites/main
+      - ./public/prototype.main:/sites/prototype.main
+      - ./public/docs.main:/sites/docs.main
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+      - external
+      - proxy
+  test_backend:
+    build:
+      context: .
+      dockerfile: build/backend.Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-fI", "http://localhost:8080"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    networks:
+      - internal
+  mailhog:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_HOSTNAME: mail.main.dev
+      MH_MAILDIR_PATH: /data
+      MH_STORAGE: maildir
+    user: 0:0
+    volumes:
+      - mailhog:/data
+    networks:
+      - external
+  volumes:
+    caddy_data:
+    caddy_config:
+    mailhog:
+  networks:
+    internal:
+      driver: bridge
+    external:
+      driver: bridge
+    proxy:
+      driver: bridge
