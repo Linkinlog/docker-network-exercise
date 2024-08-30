@@ -43,3 +43,13 @@ This does come with its own downside though, being additional overhead and resou
 This docker compose is the exact same as option 1, however our backend image is more traditional, using PHP-FPM and Caddy instead of Swoole.
 The downside being a bit of added complexity with multiple more processes and needing to use something like supervisord to wrangle them up.
 The upside being that its a lot more traditional, supported, documented, and we can rely on the official php image instead of the Swoole one.
+
+### Option 5
+This docker compose is the same as option 1 except using ✨Go✨
+Benefit is smaller, lighter, faster, stronger
+Downside is type safe and compiled languages can take longer to develop if youre not familiar
+
+### Option 5_1
+This docker compose is the same as option 1 except using ✨Go✨ (and a scratch image for a smaller size)
+Benefit is smaller, lighter, faster, stronger, and now with an even smaller total image size
+Downside is scratch doesnt have stuff like curl, so no built in healthchecks

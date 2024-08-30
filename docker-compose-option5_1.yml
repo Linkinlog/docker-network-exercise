@@ -1,0 +1,50 @@
+# This docker compose is the same as option 1 except using ✨Go✨ (and a scratch image for a smaller size)
+# Benefit is smaller, lighter, faster, stronger, and now with an even smaller total image size
+# Downside is scratch doesnt have stuff like curl, so no built in healthchecks
+services:
+  caddy:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public/:/sites
+      - ./build/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - main
+      - vendors
+      - caddy
+  backend:
+    build:
+      context: .
+      dockerfile: build/option5/golang-scratch.Dockerfile
+    networks:
+      - main
+  mailhog:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_HOSTNAME: mail.test
+      MH_MAILDIR_PATH: /data
+      MH_STORAGE: maildir
+    user: 0:0
+    ports:
+      - "8025:8025"
+    volumes:
+      - mailhog:/data
+    networks:
+      - vendors
+volumes:
+  caddy_data:
+  caddy_config:
+  mailhog:
+networks:
+  main:
+    driver: bridge
+  vendors:
+    driver: bridge
+  caddy:
+    driver: bridge
+
+
