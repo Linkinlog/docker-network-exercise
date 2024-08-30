@@ -1,17 +1,21 @@
 http://main.test {
 	root * /sites/main
-	reverse_proxy /api/v1/* backend:8080
+	reverse_proxy /api/v1/* backend
 	file_server
 }
 
 http://docs.test {
 	root * /sites/docs
-	reverse_proxy /api/v1/* backend:8080
+	reverse_proxy /api/v1/* backend
 	file_server
 }
 
 http://prototype.test {
 	root * /sites/prototype
-	reverse_proxy /api/v1/* backend:8080
+	reverse_proxy /api/v1/* backend
 	file_server
+}
+
+http://mail.test {
+	reverse_proxy mailhog:8025
 }

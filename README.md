@@ -37,3 +37,8 @@ This docker compose gives an even more explicit view into which static assets ar
 The downside being needing to redeploy the stack whenever we want to add any new sites
 However, an additional upside is slightly more granular control over the environment that each static site is in.
 This does come with its own downside though, being additional overhead and resources.
+
+### Option 4
+This docker compose is the exact same as option 1, however our backend image is more traditional, using PHP-FPM and Caddy instead of Swoole.
+The downside being a bit of added complexity with multiple more processes and needing to use something like supervisord to wrangle them up.
+The upside being that its a lot more traditional, supported, documented, and we can rely on the official php image instead of the Swoole one.

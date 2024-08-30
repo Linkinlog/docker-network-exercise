@@ -7,5 +7,8 @@ option2:
 option3:
 	@docker compose -f ./docker-compose-option3.yml down
 	@docker compose -f ./docker-compose-option3.yml up --build
+option4:
+	@docker compose -f ./docker-compose-option4.yml down
+	@docker compose -f ./docker-compose-option4.yml up --build
 
 .PHONY: option1 option2 option3

@@ -1,0 +1,18 @@
+http://docs.test/api/v1/ {
+    root * /app
+	encode gzip
+    php_fastcgi 127.0.0.1:9000
+	file_server
+}
+http://prototype.test/api/v1/ {
+    root * /app
+	encode gzip
+    php_fastcgi 127.0.0.1:9000
+	file_server
+}
+http://main.test/api/v1/ {
+    root * /app
+	encode gzip
+    php_fastcgi 127.0.0.1:9000
+	file_server
+}
