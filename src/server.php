@@ -6,7 +6,7 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
 
-$server = new Server('0.0.0.0', 8080);
+$server = new Server('0.0.0.0', 80);
 
 $count = 0;
 

@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: build/backend.Dockerfile
     healthcheck:
-      test: ["CMD", "curl", "-fI", "http://localhost:8080"]
+      test: ["CMD", "curl", "-fI", "http://localhost"]
       interval: 1m30s
       timeout: 10s
       retries: 3

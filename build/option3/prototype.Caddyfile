@@ -1,6 +1,6 @@
 http://prototype.test {
 	root * /sites/prototype
-	reverse_proxy /api/v1/* backend:8080
+	reverse_proxy /api/v1/* backend
 	file_server
 }
 

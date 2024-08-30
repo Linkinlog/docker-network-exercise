@@ -14,13 +14,13 @@ services:
     networks:
       - main
       - vendors
-      - cadidy
+      - caddy
   backend:
     build:
       context: .
       dockerfile: build/backend.Dockerfile
     healthcheck:
-      test: ["CMD", "curl", "-fI", "http://localhost:8080"]
+      test: ["CMD", "curl", "-fI", "http://localhost"]
       interval: 1m30s
       timeout: 10s
       retries: 3
@@ -50,5 +50,5 @@ networks:
     driver: bridge
   vendors:
     driver: bridge
-  cadidy:
+  caddy:
     driver: bridge

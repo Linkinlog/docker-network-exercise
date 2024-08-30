@@ -4,6 +4,6 @@ COPY ./src/server.php /var/www/html
 
 WORKDIR /var/www/html
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["php", "/var/www/html/server.php"]

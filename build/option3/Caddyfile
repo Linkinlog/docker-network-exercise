@@ -9,3 +9,7 @@ http://docs.test {
 http://prototype.test {
 	reverse_proxy * prototype
 }
+
+http://mail.test {
+	reverse_proxy mailhog:8025
+}
